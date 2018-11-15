@@ -5,32 +5,68 @@
     <title>Hello World</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
 
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+        button {
+            height: 40px;
+            width: 200px;
+        }
+
+        .warning {
+            background-color: #f50;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+
+            font-size: 14pt;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <div id="root"></div>
 
 <script type="text/babel">
-    var title = '陈泽辉'
-    // var title = 123
+    function WarningBanner(props) {
+        if (!props.warn) {
+            return null
+        }
 
-    class Mytitle extends React.Component {
+        return (
+            <div className="warning">警告！</div>
+        )
+    }
+
+    class Page extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {showWarning: true}
+            this.handleToggleClick = this.handleToggleClick.bind(this)
+        }
+
+        handleToggleClick() {
+            this.setState(prevState => ({
+                showWarning: !prevState.showWarning
+            }))
+        }
+
         render() {
             return (
-                <h1>hello, {this.props.title}</h1>
+                <div>
+                    <WarningBanner warn={this.state.showWarning}/>
+                    <button onClick={this.handleToggleClick}>
+                        {this.state.showWarning ? '隐藏' : '显示'}
+                    </button>
+                </div>
             )
         }
     }
 
-    Mytitle.propTypes  = {
-        title: PropTypes.string
-    }
-
     ReactDOM.render(
-        <Mytitle title={title}/>,
+        <Page/>,
         document.getElementById('root')
     )
 </script>

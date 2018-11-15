@@ -5,7 +5,6 @@
     <title>Hello World</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
 
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
@@ -14,23 +13,32 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    var title = '陈泽辉'
-    // var title = 123
+    class Toggle extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {isToggleOn: true}
 
-    class Mytitle extends React.Component {
+            // 这边绑定是必要的，这样 `this` 才能在回调函数中使用
+            this.handleClick = this.handleClick.bind(this)
+        }
+
+        handleClick() {
+            this.setState(prevState => ({
+                isToggleOn: !prevState.isToggleOn
+            }))
+        }
+
         render() {
             return (
-                <h1>hello, {this.props.title}</h1>
+                <button onClick={this.handleClick}>
+                    {this.state.isToggleOn ? 'ON' : 'OFF'}
+                </button>
             )
         }
     }
 
-    Mytitle.propTypes  = {
-        title: PropTypes.string
-    }
-
     ReactDOM.render(
-        <Mytitle title={title}/>,
+        <Toggle/>,
         document.getElementById('root')
     )
 </script>

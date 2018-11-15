@@ -5,7 +5,6 @@
     <title>Hello World</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
 
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
@@ -14,23 +13,24 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    var title = '陈泽辉'
-    // var title = 123
-
-    class Mytitle extends React.Component {
-        render() {
-            return (
-                <h1>hello, {this.props.title}</h1>
-            )
-        }
+    function UserGreeting(props) {
+        return <h1>欢迎回来！</h1>
     }
 
-    Mytitle.propTypes  = {
-        title: PropTypes.string
+    function GuestGreeting(props) {
+        return <h1>请先注册。</h1>
+    }
+
+    function Greeting(props) {
+        const isLoggedIn = props.isLoggedIn
+        if (isLoggedIn) {
+            return <UserGreeting/>
+        }
+        return <GuestGreeting/>
     }
 
     ReactDOM.render(
-        <Mytitle title={title}/>,
+        <Greeting isLoggedIn={false}/>,
         document.getElementById('root')
     )
 </script>
